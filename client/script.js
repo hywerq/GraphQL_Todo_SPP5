@@ -49,8 +49,25 @@ function sendServerRequest() {
             cb(result);
         },
         async getToken(url, cb) {
+            const query = `query
+            {
+                logOut
+            }`;
 
-        },/////////////////
+            const response = await fetch(url, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    query
+                })
+            }).then(res => res.json());
+
+            const result = JSON.parse(response['data']['logOut']);
+            cb(result);
+        },
         async getTodos(url, cb) {
             const query = `query
             {
@@ -119,14 +136,6 @@ function sendServerRequest() {
             const todos = JSON.parse(result.todos);
             cb(todos.todo);
         },
-        async alert(msg) {
-            /*socket.send(JSON.stringify({
-                id: id,
-                username: username,
-                method: 'alert',
-                message : msg
-            }));*/
-        }//////////////////////////
     };
 }
 
@@ -146,9 +155,6 @@ const entranceService = (function() {
         },
         async logout(cb) {
             await server.getToken(url, cb);
-        },
-        async alertUsers(msg) {
-            await server.alert(msg)
         }
     };
 })();
@@ -188,7 +194,7 @@ function onGetResponse(res) {
         showAlert(res.message);
     }
 
-    if(res.token === false) {
+    if(res.token === 'false') {
         renderEntranceForm();
         return;
     }
@@ -528,7 +534,7 @@ document.body.addEventListener( 'click', e => {
         case 'log_out':
             e.preventDefault();
             if (confirm("Do you want to log out?")) {
-                entranceService.logout().catch(error => showAlert(error));
+                entranceService.logout(onGetResponse).catch(error => showAlert(error));
             }
             break;
     }

@@ -35,9 +35,11 @@ const schema = buildSchema(`
     
     type Query {
         getAllTodos: String
+        changeTodoStatus(id: String): String
+        
         regUser(login: String, password: String): String
         authUser(login: String, password: String): String
-        changeTodoStatus(id: String): String
+        logOut: String
     }
     
     type Mutation {

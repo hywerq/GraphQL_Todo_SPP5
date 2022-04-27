@@ -29,7 +29,7 @@ const root = {
     authUser: ({login, password}) => {
         return clientHandler.login(login, password);
     },
-    logout: () => {
+    logOut: () => {
         return clientHandler.logout();
     }
 };

@@ -52,22 +52,8 @@ class authController {
         }
     }
 
-    async getCookie(token) {
-        try {
-            if(token) {
-                return JSON.stringify({response: 'token', value: token });
-            }
-
-            return JSON.stringify({response: 'token', value: null });
-        }
-        catch (e) {
-            console.log(e);
-            return JSON.stringify({message: `Couldn't get cookie`, type: 'error'});
-        }
-    }
-
     async removeCookie() {
-        return JSON.stringify({response: 'token', value: null });
+        return JSON.stringify({token: 'false'});
     }
 }
 
